@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BloodBridge - Connect with available blood donors in your area. Fast, local, life-saving blood donor registration and search platform.">
+  <meta name="theme-color" content="#8B0000">
+  <title>BloodBridge — Give Blood. Give Hope.</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       TOP ANNOUNCEMENT / LIMITATION & MEDICAL DISCLAIMER BANNER
+       ============================================================ -->
+  <div class="top-disclaimer-strip" role="region" aria-label="Medical and Prototype Notice">
+    <div class="container strip-content">
+      <div class="strip-item">
+        <span class="strip-icon" aria-hidden="true">⚠️</span>
+        <span class="strip-text">
+          <strong>Medical Notice:</strong> BloodBridge is a donor connection platform and is not a hospital, blood bank, or medical service. Donor availability and eligibility should be confirmed before donation. For emergencies, contact the nearest hospital, licensed blood bank, or emergency service.
+        </span>
+      </div>
+      <div class="strip-item strip-prototype">
+        <span class="strip-icon" aria-hidden="true">ℹ️</span>
+        <span class="strip-text">
+          <strong>Frontend Prototype:</strong> This frontend-only version stores data locally in this browser using <code>localStorage</code>. For a real public multi-user blood donor network, a shared backend/database would be required.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HEADER & NAVIGATION
+       ============================================================ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-container">
+      <a href="#home" class="brand-logo" id="navBrand" aria-label="BloodBridge Home">
+        <div class="brand-icon-wrapper" aria-hidden="true">
+          <svg class="blood-drop-svg" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2C16 2 2 17 2 24.5C2 31.9558 8.26801 38 16 38C23.732 38 30 31.9558 30 24.5C30 17 16 2 16 2Z" fill="url(#dropGradHeader)"/>
+            <path d="M10 24C10 20 16 12 16 12C16 12 14 18 14 22C14 25 12 26 10 24Z" fill="#FFFFFF" fill-opacity="0.35"/>
+            <defs>
+              <linearGradient id="dropGradHeader" x1="16" y1="2" x2="16" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF334B"/>
+                <stop offset="1" stop-color="#8B0000"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-name-group">
+          <span class="brand-title">Blood<span class="brand-highlight">Bridge</span></span>
+          <span class="brand-tagline">Lifeline Network</span>
+        </div>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Links -->
+      <nav class="main-nav" id="mainNav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active" data-view="home">Home</a></li>
+          <li><a href="#search" class="nav-link" data-view="search">Find Blood</a></li>
+          <li><a href="#register" class="nav-link" data-view="register">Register as Donor</a></li>
+          <li>
+            <a href="#admin" class="nav-link admin-nav-btn" data-view="admin" id="adminNavLink">
+              <span class="admin-icon" aria-hidden="true">🛡️</span> Admin
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER (SPA VIEW ROUTING)
+       ============================================================ -->
+  <main id="appMain" class="main-wrapper">
+
+    <!-- ============================================================
+         VIEW 1: HOMEPAGE
+         ============================================================ -->
+    <section id="view-home" class="view-section active" aria-labelledby="heroHeading">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span class="pulse-indicator"></span> Verified Community Donors
+            </div>
+            <h1 class="hero-heading" id="heroHeading">
+              Give Blood.<br><span class="text-gradient">Give Hope.</span>
+            </h1>
+            <p class="hero-subheading">
+              Connect with available blood donors in your area. Every drop counts. Real-time community lifeline when every second matters.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#register" class="btn btn-primary btn-lg" data-view="register">
+                <span class="btn-icon" aria-hidden="true">❤️</span>
+                REGISTER AS A BLOOD DONOR
+              </a>
+              <a href="#search" class="btn btn-secondary btn-lg" data-view="search">
+                <span class="btn-icon" aria-hidden="true">🔍</span>
+                FIND BLOOD
+              </a>
+            </div>
+
+            <!-- Fast Stat Highlights -->
+            <div class="hero-quick-stats">
+              <div class="quick-stat-card">
+                <span class="quick-stat-val" id="homeTotalDonors">0</span>
+                <span class="quick-stat-lbl">Registered Donors</span>
+              </div>
+              <div class="quick-stat-card">
+                <span class="quick-stat-val" id="homeAvailDonors">0</span>
+                <span class="quick-stat-lbl">Available Now</span>
+              </div>
+              <div class="quick-stat-card">
+                <span class="quick-stat-val">100%</span>
+                <span class="quick-stat-lbl">Free &amp; No Login</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Visual Blood Drop Art -->
+          <div class="hero-visual" aria-hidden="true">
+            <div class="blood-drop-glow"></div>
+            <div class="blood-drop-card">
+              <svg class="hero-drop-svg" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M80 10C80 10 10 85 10 122.5C10 159.779 41.34 190 80 190C118.66 190 150 159.779 150 122.5C150 85 80 10 80 10Z" fill="url(#heroDropGrad)" filter="url(#dropShadow)"/>
+                <path d="M50 120C50 100 80 60 80 60C80 60 70 90 70 110C70 125 60 130 50 120Z" fill="#FFFFFF" fill-opacity="0.3"/>
+                <circle cx="95" cy="140" r="8" fill="#FFFFFF" fill-opacity="0.2"/>
+                <defs>
+                  <filter id="dropShadow" x="-10" y="0" width="180" height="220" filterUnits="userSpaceOnUse">
+                    <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#8B0000" flood-opacity="0.5"/>
+                  </filter>
+                  <linearGradient id="heroDropGrad" x1="80" y1="10" x2="80" y2="190" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FF2E4D"/>
+                    <stop offset="0.6" stop-color="#B3001B"/>
+                    <stop offset="1" stop-color="#66000F"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="drop-pulse-ring"></div>
+              <div class="floating-badge badge-top-right">
+                <span class="badge-icon">🩸</span> 8 Blood Groups
+              </div>
+              <div class="floating-badge badge-bottom-left">
+                <span class="badge-icon">⚡</span> Instant Direct Call
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Feature Highlights -->
+      <section class="home-features-section">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2 class="section-title">How BloodBridge Works</h2>
+            <p class="section-subtitle">No accounts, no delays. Direct connection between voluntary donors and people in urgent need.</p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card glass-card">
+              <div class="feature-icon-circle">1</div>
+              <h3 class="feature-title">Register as Donor</h3>
+              <p class="feature-desc">Fill our simple registration form with your blood group and location. Your consent authorizes direct contact for urgent needs.</p>
+              <a href="#register" class="feature-link" data-view="register">Join as Donor &rarr;</a>
+            </div>
+
+            <div class="feature-card glass-card">
+              <div class="feature-icon-circle">2</div>
+              <h3 class="feature-title">Search by Location</h3>
+              <p class="feature-desc">Look up donors by blood group and State, District, or City. Filter only active and currently eligible donors.</p>
+              <a href="#search" class="feature-link" data-view="search">Find Donors &rarr;</a>
+            </div>
+
+            <div class="feature-card glass-card">
+              <div class="feature-icon-circle">3</div>
+              <h3 class="feature-title">Direct Contact</h3>
+              <p class="feature-desc">Click 'Call Donor' to directly connect via telephone. Zero middleman fees, zero account signups, maximum emergency response speed.</p>
+              <span class="feature-tag">100% Direct</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blood Compatibility Matrix Reference -->
+      <section class="compatibility-section">
+        <div class="container">
+          <div class="glass-card compatibility-card">
+            <div class="compat-header">
+              <h3 class="compat-title">Quick Blood Group Compatibility Reference</h3>
+              <p class="compat-sub">Understanding who can donate to whom helps find the right donor faster.</p>
+            </div>
+            <div class="compat-table-responsive">
+              <table class="compat-table">
+                <thead>
+                  <tr>
+                    <th>Blood Type</th>
+                    <th>Can Donate To</th>
+                    <th>Can Receive From</th>
+                    <th>Highlight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="blood-tag tag-o-neg">O-</span></td>
+                    <td>Everyone (Universal Donor)</td>
+                    <td>O- only</td>
+                    <td><span class="badge badge-warning">Universal Donor</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">O+</span></td>
+                    <td>O+, A+, B+, AB+</td>
+                    <td>O+, O-</td>
+                    <td>Most commonly requested</td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">A+</span></td>
+                    <td>A+, AB+</td>
+                    <td>A+, A-, O+, O-</td>
+                    <td>Common type</td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">A-</span></td>
+                    <td>A+, A-, AB+, AB-</td>
+                    <td>A-, O-</td>
+                    <td>Valuable plasma &amp; RBC</td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">B+</span></td>
+                    <td>B+, AB+</td>
+                    <td>B+, B-, O+, O-</td>
+                    <td>High demand</td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">B-</span></td>
+                    <td>B+, B-, AB+, AB-</td>
+                    <td>B-, O-</td>
+                    <td>Rare group</td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag tag-ab-pos">AB+</span></td>
+                    <td>AB+ only</td>
+                    <td>Everyone (Universal Recipient)</td>
+                    <td><span class="badge badge-success">Universal Recipient</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="blood-tag">AB-</span></td>
+                    <td>AB+, AB-</td>
+                    <td>AB-, A-, B-, O-</td>
+                    <td>Rarest group</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="compat-disclaimer">
+              <small>Source guideline: Standard Transfusion Compatibility. Always verify compatibility with hospital laboratory testing before any transfusion.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============================================================
+         VIEW 2: DONOR REGISTRATION FORM
+         ============================================================ -->
+    <section id="view-register" class="view-section" aria-labelledby="registerHeading">
+      <div class="container form-page-container">
+        <div class="page-title-header text-center">
+          <div class="title-badge">Become a Lifesaver</div>
+          <h2 class="page-title" id="registerHeading">Donor Registration</h2>
+          <p class="page-subtitle">No login or account needed. Your information is stored on this device and shared with people searching for blood in emergencies.</p>
+        </div>
+
+        <div class="form-wrapper glass-card">
+          <!-- Live Form Notice -->
+          <div class="info-alert-box">
+            <span class="info-icon" aria-hidden="true">ℹ️</span>
+            <div>
+              <strong>Privacy Protection:</strong> Your email and private administrative notes are never shown publicly. Only your name, blood group, city/state, availability, and phone number (via Call button) will be accessible to blood seekers.
+            </div>
+          </div>
+
+          <form id="donorRegistrationForm" novalidate>
+            <!-- SECTION 1: PERSONAL INFORMATION -->
+            <fieldset class="form-fieldset">
+              <legend class="form-legend">
+                <span class="legend-num">1</span> Personal Information
+              </legend>
+
+              <div class="form-grid-2">
+                <!-- Full Name -->
+                <div class="form-group">
+                  <label for="regFullName" class="form-label required-field">Full Name</label>
+                  <input type="text" id="regFullName" name="fullName" class="form-input" placeholder="e.g. Ravi Kumar" required autocomplete="name" minlength="2" maxlength="80">
+                  <div class="field-error" id="errFullName">Please enter your full name (minimum 2 characters).</div>
+                </div>
+
+                <!-- Blood Group -->
+                <div class="form-group">
+                  <label for="regBloodGroup" class="form-label required-field">Blood Group</label>
+                  <select id="regBloodGroup" name="bloodGroup" class="form-select" required>
+                    <option value="" disabled selected>-- Select Blood Group --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                  <div class="field-error" id="errBloodGroup">Please select your blood group.</div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- SECTION 2: CONTACT INFORMATION -->
+            <fieldset class="form-fieldset">
+              <legend class="form-legend">
+                <span class="legend-num">2</span> Contact Information
+              </legend>
+
+              <div class="form-grid-2">
+                <!-- Mobile Number -->
+                <div class="form-group">
+                  <label for="regMobile" class="form-label required-field">Mobile Number</label>
+                  <div class="input-with-prefix">
+                    <span class="input-prefix">+91</span>
+                    <input type="tel" id="regMobile" name="mobile" class="form-input prefixed-input" placeholder="9876543210" required pattern="^[6-9]\d{9}$" maxlength="10" inputmode="numeric">
+                  </div>
+                  <small class="field-hint">10-digit Indian mobile number. Blood seekers will call this directly.</small>
+                  <div class="field-error" id="errMobile">Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.</div>
+                </div>
+
+                <!-- Email ID -->
+                <div class="form-group">
+                  <label for="regEmail" class="form-label required-field">Email ID</label>
+                  <input type="email" id="regEmail" name="email" class="form-input" placeholder="ravi.kumar@example.com" required autocomplete="email">
+                  <small class="field-hint">Kept private. Used for confirmation &amp; admin records.</small>
+                  <div class="field-error" id="errEmail">Please enter a valid email address.</div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- SECTION 3: LOCATION INFORMATION -->
+            <fieldset class="form-fieldset">
+              <legend class="form-legend">
+                <span class="legend-num">3</span> Location Information
+              </legend>
+
+              <div class="form-grid-3">
+                <!-- Country -->
+                <div class="form-group">
+                  <label for="regCountry" class="form-label required-field">Country</label>
+                  <input type="text" id="regCountry" name="country" class="form-input" value="India" readonly>
+                </div>
+
+                <!-- State -->
+                <div class="form-group">
+                  <label for="regState" class="form-label required-field">State / UT</label>
+                  <select id="regState" name="state" class="form-select" required>
+                    <option value="" disabled selected>-- Select State --</option>
+                    <!-- Populated dynamically via script.js -->
+                  </select>
+                  <div class="field-error" id="errState">Please select your state.</div>
+                </div>
+
+                <!-- District -->
+                <div class="form-group">
+                  <label for="regDistrict" class="form-label required-field">District</label>
+                  <select id="regDistrict" name="district" class="form-select" required disabled>
+                    <option value="" disabled selected>-- Select State First --</option>
+                  </select>
+                  <div class="field-error" id="errDistrict">Please select or enter your district.</div>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <!-- City -->
+                <div class="form-group">
+                  <label for="regCity" class="form-label required-field">City / Town / Village</label>
+                  <input type="text" id="regCity" name="city" class="form-input" placeholder="e.g. Bhimavaram" required minlength="2" maxlength="60">
+                  <div class="field-error" id="errCity">Please enter your city or town name.</div>
+                </div>
+
+                <!-- Area / Locality -->
+                <div class="form-group">
+                  <label for="regArea" class="form-label">Area / Locality</label>
+                  <input type="text" id="regArea" name="area" class="form-input" placeholder="e.g. Gandhi Nagar, Main Road" maxlength="100">
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- SECTION 4: DONATION INFORMATION -->
+            <fieldset class="form-fieldset">
+              <legend class="form-legend">
+                <span class="legend-num">4</span> Donation Information &amp; Availability
+              </legend>
+
+              <div class="form-grid-2">
+                <!-- Last Blood Donation Date -->
+                <div class="form-group">
+                  <label for="regLastDonationDate" class="form-label">Last Blood Donation Date <span class="text-muted">(Optional)</span></label>
+                  <input type="date" id="regLastDonationDate" name="lastDonationDate" class="form-input">
+                  <small class="field-hint">Leave blank if you are a first-time donor.</small>
+                  <!-- 3-month calculation preview alert -->
+                  <div id="regNextAvailablePreview" class="calc-preview-box" style="display:none;"></div>
+                </div>
+
+                <!-- Availability -->
+                <div class="form-group">
+                  <label for="regAvailability" class="form-label required-field">Current Availability</label>
+                  <select id="regAvailability" name="availability" class="form-select" required>
+                    <option value="Available" selected>Available</option>
+                    <option value="Available this week">Available this week</option>
+                    <option value="Contact me first">Contact me first</option>
+                    <option value="Temporarily unavailable">Temporarily unavailable</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- 3-Month Waiting Period Rule Notice -->
+              <div class="waiting-rule-notice">
+                <span class="notice-icon" aria-hidden="true">⏱️</span>
+                <div class="notice-body">
+                  <strong>3-Month Health Guideline:</strong> If you donated blood recently, a 3-month waiting interval is calculated automatically.
+                  <div class="disclaimer-subtext">
+                    "Donation eligibility and waiting periods may vary. Please confirm eligibility with a qualified healthcare professional or blood bank."
+                  </div>
+                </div>
+              </div>
+
+              <!-- Additional Notes -->
+              <div class="form-group mt-3">
+                <label for="regNotes" class="form-label">Additional Notes <span class="text-muted">(Optional)</span></label>
+                <textarea id="regNotes" name="notes" class="form-textarea" rows="2" placeholder="e.g. Available after 5 PM, willing to travel up to 10km, etc." maxlength="250"></textarea>
+              </div>
+            </fieldset>
+
+            <!-- SECTION 5: CONSENT CHECKBOX (MANDATORY) -->
+            <div class="consent-container">
+              <label class="checkbox-label" for="regConsent">
+                <input type="checkbox" id="regConsent" name="consent" class="custom-checkbox" required>
+                <span class="checkbox-text">
+                  <strong>Mandatory Consent:</strong> I authorize BloodBridge to display my relevant donor information to people searching for blood and to contact me regarding blood donation requests.
+                </span>
+              </label>
+              <div class="field-error" id="errConsent">You must provide consent to register as a donor on BloodBridge.</div>
+            </div>
+
+            <!-- Form Action Buttons -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-lg" id="regSubmitBtn">
+                <span class="btn-spinner" id="regSpinner" aria-hidden="true" style="display:none;"></span>
+                <span id="regSubmitBtnText">SUBMIT DONOR REGISTRATION</span>
+              </button>
+              <button type="reset" class="btn btn-secondary" id="regResetBtn">Reset Form</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW 3: FIND BLOOD (SEARCH)
+         ============================================================ -->
+    <section id="view-search" class="view-section" aria-labelledby="searchHeading">
+      <div class="container search-page-container">
+        <div class="page-title-header text-center">
+          <div class="title-badge">Emergency Donor Finder</div>
+          <h2 class="page-title" id="searchHeading">Find Blood Donors</h2>
+          <p class="page-subtitle">Search for willing blood donors by group and location. No login required.</p>
+        </div>
+
+        <!-- Search Filter Card -->
+        <div class="search-form-card glass-card">
+          <form id="bloodSearchForm" class="search-form" novalidate>
+            <div class="search-grid">
+              <!-- Blood Group -->
+              <div class="form-group">
+                <label for="searchBloodGroup" class="form-label required-field">Blood Group Needed</label>
+                <select id="searchBloodGroup" class="form-select" required>
+                  <option value="" disabled selected>-- Select Blood Group --</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+                <div class="field-error" id="errSearchBloodGroup">Please select a blood group to search.</div>
+              </div>
+
+              <!-- State -->
+              <div class="form-group">
+                <label for="searchState" class="form-label required-field">State / UT</label>
+                <select id="searchState" class="form-select" required>
+                  <option value="" disabled selected>-- Select State --</option>
+                  <!-- Populated dynamically via script.js -->
+                </select>
+                <div class="field-error" id="errSearchState">Please select a state.</div>
+              </div>
+
+              <!-- District (Optional) -->
+              <div class="form-group">
+                <label for="searchDistrict" class="form-label">District <span class="text-muted">(Optional)</span></label>
+                <select id="searchDistrict" class="form-select" disabled>
+                  <option value="">-- All Districts --</option>
+                </select>
+              </div>
+
+              <!-- City (Optional) -->
+              <div class="form-group">
+                <label for="searchCity" class="form-label">City / Town <span class="text-muted">(Optional)</span></label>
+                <input type="text" id="searchCity" class="form-input" placeholder="e.g. Bhimavaram">
+              </div>
+            </div>
+
+            <!-- Flexible Search Explainer -->
+            <div class="search-flex-hint">
+              <span>💡 Tip: You can search by <strong>Blood Group + State</strong>, <strong>+ District</strong>, or <strong>+ City</strong>. Leaving district and city blank will search the entire state.</span>
+            </div>
+
+            <div class="search-buttons-row">
+              <button type="submit" class="btn btn-primary btn-lg" id="searchSubmitBtn">
+                <span class="btn-icon" aria-hidden="true">🔍</span> SEARCH AVAILABLE DONORS
+              </button>
+              <button type="button" class="btn btn-secondary" id="searchClearBtn">Clear Search</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Search Results Section -->
+        <div class="search-results-wrapper" id="searchResultsArea" style="display:none;">
+          <div class="results-header-bar">
+            <div>
+              <h3 class="results-heading" id="resultsCountHeading">0 Donors Found</h3>
+              <p class="results-query-summary" id="resultsQuerySummary"></p>
+            </div>
+            <div class="results-safety-tag">
+              <span>🛡️ Only Active &amp; Eligible Donors</span>
+            </div>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="donor-cards-grid" id="donorCardsGrid">
+            <!-- Populated via script.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW 4: ADMIN PANEL (LOGIN / DASHBOARD)
+         ============================================================ -->
+    <section id="view-admin" class="view-section" aria-labelledby="adminHeading">
+      <div class="container admin-container">
+
+        <!-- ==========================================
+             SUB-VIEW 4A: ADMIN LOGIN SCREEN
+             ========================================== -->
+        <div id="adminLoginScreen" class="admin-login-wrapper">
+          <div class="page-title-header text-center">
+            <div class="title-badge badge-admin">Administrator Access</div>
+            <h2 class="page-title" id="adminHeading">Admin Login</h2>
+            <p class="page-subtitle">Restricted administrative portal for managing donor records and platform analytics.</p>
+          </div>
+
+          <!-- Prototype Security Notice -->
+          <div class="security-warning-box">
+            <div class="warning-header">
+              <span class="warning-icon" aria-hidden="true">🔒</span>
+              <strong>RESTRICTED ADMINISTRATIVE ACCESS</strong>
+            </div>
+            <p class="warning-desc">
+              This area is restricted to authorized platform administrators only. All access attempts are verified using cryptographic SHA-256 authentication.
+            </p>
+          </div>
+
+          <div class="admin-login-card glass-card">
+            <form id="adminLoginForm" novalidate>
+              <div class="form-group">
+                <label for="adminEmail" class="form-label required-field">Admin Email</label>
+                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email" value="" required autocomplete="username">
+              </div>
+
+              <div class="form-group">
+                <label for="adminPassword" class="form-label required-field">Admin Password</label>
+                <div class="password-input-group">
+                  <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password" value="" required autocomplete="current-password">
+                  <button type="button" class="btn-toggle-pwd" id="toggleAdminPwd" aria-label="Toggle password visibility">👁️</button>
+                </div>
+              </div>
+
+              <div class="field-error" id="errAdminLogin" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="adminLoginBtn">
+                LOGIN TO ADMIN DASHBOARD
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             SUB-VIEW 4B: ADMIN DASHBOARD (AUTHENTICATED)
+             ========================================== -->
+        <div id="adminDashboardScreen" class="admin-dashboard-wrapper" style="display:none;">
+          <!-- Admin Top Toolbar -->
+          <div class="admin-toolbar glass-card">
+            <div class="admin-user-info">
+              <span class="admin-avatar">👤</span>
+              <div>
+                <strong id="adminUserEmail">Administrator</strong>
+                <span class="badge badge-success">Active Session</span>
+              </div>
+            </div>
+            <div class="admin-actions-bar">
+              <button type="button" class="btn btn-secondary btn-sm" id="adminRefreshBtn" title="Refresh local data">
+                🔄 Refresh
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" id="adminLogoutBtn">
+                🚪 Logout
+              </button>
+            </div>
+          </div>
+
+          <!-- Limitation Banner in Admin Section -->
+          <div class="admin-limitation-banner">
+            <span class="banner-icon">📌</span>
+            <div class="banner-text">
+              <strong>Architectural Note:</strong> This is a frontend-only prototype. Donor records are stored in this browser using <code>localStorage</code>. Data is <strong>NOT</strong> automatically shared between different devices or users. For a real public blood donor network, a shared backend/database would be required.
+            </div>
+          </div>
+
+          <!-- ADMIN TABS -->
+          <div class="admin-tab-nav" role="tablist">
+            <button class="admin-tab-btn active" data-tab="tab-overview" role="tab" aria-selected="true">📊 Dashboard &amp; Analytics</button>
+            <button class="admin-tab-btn" data-tab="tab-donors" role="tab" aria-selected="false">👥 Donor Management</button>
+            <button class="admin-tab-btn" data-tab="tab-searches" role="tab" aria-selected="false">🔍 Search History</button>
+            <button class="admin-tab-btn" data-tab="tab-data" role="tab" aria-selected="false">💾 Data &amp; Backup Tools</button>
+          </div>
+
+          <!-- TAB 1: OVERVIEW & ANALYTICS -->
+          <div id="tab-overview" class="admin-tab-content active" role="tabpanel">
+            <!-- KPI Cards Grid -->
+            <div class="kpi-grid">
+              <div class="kpi-card glass-card">
+                <div class="kpi-icon">👥</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiTotalDonors">0</span>
+                  <span class="kpi-lbl">Total Donors</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card kpi-avail">
+                <div class="kpi-icon">✅</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiAvailDonors">0</span>
+                  <span class="kpi-lbl">Available Donors</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card kpi-unavail">
+                <div class="kpi-icon">⏳</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiUnavailDonors">0</span>
+                  <span class="kpi-lbl">Unavailable Donors</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card kpi-blocked">
+                <div class="kpi-icon">🚫</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiBlockedDonors">0</span>
+                  <span class="kpi-lbl">Blocked Donors</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card">
+                <div class="kpi-icon">🔍</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiTotalSearches">0</span>
+                  <span class="kpi-lbl">Total Searches</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card kpi-match">
+                <div class="kpi-icon">🎯</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiSuccessSearches">0</span>
+                  <span class="kpi-lbl">Successful Searches</span>
+                </div>
+              </div>
+              <div class="kpi-card glass-card kpi-nomatch">
+                <div class="kpi-icon">❌</div>
+                <div class="kpi-data">
+                  <span class="kpi-val" id="kpiNoResultSearches">0</span>
+                  <span class="kpi-lbl">No-Result Searches</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Pure HTML/CSS Charts -->
+            <div class="charts-grid mt-4">
+              <!-- Blood Group Distribution -->
+              <div class="chart-card glass-card">
+                <div class="chart-card-header">
+                  <h3 class="chart-title">Blood Group Distribution</h3>
+                  <span class="chart-sub">Registered inventory by blood type</span>
+                </div>
+                <div class="chart-bars-container" id="bloodGroupBars">
+                  <!-- Generated via script.js -->
+                </div>
+              </div>
+
+              <!-- Available vs Unavailable Ratio -->
+              <div class="chart-card glass-card">
+                <div class="chart-card-header">
+                  <h3 class="chart-title">Donor Status Ratio</h3>
+                  <span class="chart-sub">Available vs Unavailable vs Blocked</span>
+                </div>
+                <div class="chart-bars-container" id="statusRatioBars">
+                  <!-- Generated via script.js -->
+                </div>
+
+                <div class="chart-card-header mt-4">
+                  <h3 class="chart-title">Search Conversion Rate</h3>
+                  <span class="chart-sub">Matches Found vs No-Matches</span>
+                </div>
+                <div class="chart-bars-container" id="searchRatioBars">
+                  <!-- Generated via script.js -->
+                </div>
+              </div>
+
+              <!-- State-Wise Donor Count -->
+              <div class="chart-card glass-card chart-full-width">
+                <div class="chart-card-header">
+                  <h3 class="chart-title">Top States by Donor Registration</h3>
+                  <span class="chart-sub">Geographic distribution of donors in database</span>
+                </div>
+                <div class="chart-bars-container state-bars-grid" id="stateCountBars">
+                  <!-- Generated via script.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DONOR MANAGEMENT TABLE -->
+          <div id="tab-donors" class="admin-tab-content" role="tabpanel">
+            <!-- Filter Bar -->
+            <div class="admin-filter-bar glass-card">
+              <div class="filter-header">
+                <strong>Filter Donors</strong>
+                <button type="button" class="btn btn-secondary btn-sm" id="adminClearFiltersBtn">Reset Filters</button>
+              </div>
+              <div class="filter-controls-grid">
+                <div>
+                  <label class="form-label-sm" for="adminFilterSearch">Search Keyword</label>
+                  <input type="text" id="adminFilterSearch" class="form-input form-input-sm" placeholder="ID, Name, Phone...">
+                </div>
+                <div>
+                  <label class="form-label-sm" for="adminFilterBloodGroup">Blood Group</label>
+                  <select id="adminFilterBloodGroup" class="form-select form-select-sm">
+                    <option value="">All Blood Groups</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label-sm" for="adminFilterState">State</label>
+                  <select id="adminFilterState" class="form-select form-select-sm">
+                    <option value="">All States</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label-sm" for="adminFilterAvailability">Availability</label>
+                  <select id="adminFilterAvailability" class="form-select form-select-sm">
+                    <option value="">All Availabilities</option>
+                    <option value="Available">Available</option>
+                    <option value="Available this week">Available this week</option>
+                    <option value="Contact me first">Contact me first</option>
+                    <option value="Temporarily unavailable">Temporarily unavailable</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label-sm" for="adminFilterStatus">Admin Status</label>
+                  <select id="adminFilterStatus" class="form-select form-select-sm">
+                    <option value="">All Statuses</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="BLOCKED">BLOCKED</option>
+                    <option value="PENDING">PENDING</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="table-wrapper glass-card">
+              <div class="table-header-meta">
+                <span id="adminTableCount">Showing 0 donors</span>
+                <button type="button" class="btn btn-primary btn-sm" id="adminAddNewDonorNavBtn">
+                  + Add New Donor
+                </button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table" id="adminDonorsTable">
+                  <thead>
+                    <tr>
+                      <th>Donor ID</th>
+                      <th>Full Name</th>
+                      <th>Blood</th>
+                      <th>Phone</th>
+                      <th>Location (City, District, State)</th>
+                      <th>Availability</th>
+                      <th>Admin Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminDonorsTableBody">
+                    <!-- Populated via script.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: SEARCH HISTORY -->
+          <div id="tab-searches" class="admin-tab-content" role="tabpanel">
+            <div class="table-wrapper glass-card">
+              <div class="table-header-meta">
+                <h3 class="chart-title">Local Blood Search Audit History</h3>
+                <span id="adminSearchCount">0 searches logged</span>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table" id="adminSearchTable">
+                  <thead>
+                    <tr>
+                      <th>Search ID</th>
+                      <th>Date &amp; Time</th>
+                      <th>Blood Group</th>
+                      <th>State</th>
+                      <th>District</th>
+                      <th>City</th>
+                      <th>Results Count</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminSearchTableBody">
+                    <!-- Populated via script.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: DATA TOOLS & BACKUP -->
+          <div id="tab-data" class="admin-tab-content" role="tabpanel">
+            <div class="data-tools-grid">
+
+              <!-- Google Sheets Cloud Sync Card -->
+              <div class="glass-card data-card" style="border-color: rgba(59, 130, 246, 0.4);">
+                <div class="data-card-icon">☁️</div>
+                <h3 class="data-card-title">Google Sheets Live Sync</h3>
+                <p class="data-card-desc">Connect a free Google Apps Script Web App to sync donors across all phones and computers in real-time.</p>
+                <div class="data-btn-stack">
+                  <div class="form-group">
+                    <label for="googleSheetUrlInput" class="form-label-sm">Google Apps Script Web App URL</label>
+                    <input type="url" id="googleSheetUrlInput" class="form-input form-input-sm" placeholder="https://script.google.com/macros/s/.../exec">
+                  </div>
+                  <button type="button" class="btn btn-primary" id="btnSaveSheetUrl">
+                    💾 Save &amp; Connect Google Sheet
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btnSyncGoogleSheet">
+                    🔄 Sync Now from Google Sheet
+                  </button>
+                  <div id="sheetSyncStatus" class="field-hint" style="color: #94A3B8;">Status: Not connected (Using device localStorage)</div>
+                </div>
+              </div>
+
+              <!-- CSV Export / Import Card -->
+              <div class="glass-card data-card">
+                <div class="data-card-icon">📄</div>
+                <h3 class="data-card-title">CSV Data Management</h3>
+                <p class="data-card-desc">Export and import donor records as portable CSV spreadsheet files.</p>
+                <div class="data-btn-stack">
+                  <button type="button" class="btn btn-primary" id="btnExportDonorsCSV">
+                    📥 EXPORT DONORS (CSV)
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btnExportSearchCSV">
+                    📥 EXPORT SEARCH HISTORY (CSV)
+                  </button>
+                  <hr class="data-divider">
+                  <label class="btn btn-outline file-input-label" for="csvImportInput">
+                    📤 IMPORT DONORS (CSV)
+                    <input type="file" id="csvImportInput" accept=".csv" style="display:none;">
+                  </label>
+                  <small class="field-hint">Validates duplicates, location, and blood groups automatically before inserting.</small>
+                </div>
+              </div>
+
+              <!-- JSON Full Backup / Restore Card -->
+              <div class="glass-card data-card">
+                <div class="data-card-icon">💽</div>
+                <h3 class="data-card-title">Complete JSON Backup</h3>
+                <p class="data-card-desc">Safeguard all application data against browser cache clearing or device changes.</p>
+                <div class="data-btn-stack">
+                  <button type="button" class="btn btn-primary" id="btnExportBackupJSON">
+                    💾 EXPORT BACKUP (JSON)
+                  </button>
+                  <label class="btn btn-outline file-input-label" for="jsonRestoreInput">
+                    📂 IMPORT BACKUP (JSON)
+                    <input type="file" id="jsonRestoreInput" accept=".json" style="display:none;">
+                  </label>
+                  <small class="field-hint">Restores donors, search history, and settings from a previously saved JSON snapshot.</small>
+                </div>
+              </div>
+
+              <!-- Database Management & Maintenance Card -->
+              <div class="glass-card data-card danger-zone">
+                <div class="data-card-icon">⚠️</div>
+                <h3 class="data-card-title">Maintenance &amp; Reset</h3>
+                <p class="data-card-desc">Reset to initial demo records or permanently wipe local database storage.</p>
+                <div class="data-btn-stack">
+                  <button type="button" class="btn btn-secondary" id="btnLoadSampleData">
+                    🔄 Reset with Sample Donors
+                  </button>
+                  <button type="button" class="btn btn-danger" id="btnClearAllData">
+                    🗑️ CLEAR ALL DATA
+                  </button>
+                  <small class="field-hint text-danger">Wipes all donors, searches, and sessions from this browser.</small>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       SITE FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <div class="brand-logo footer-logo">
+            <span class="brand-title">Blood<span class="brand-highlight">Bridge</span></span>
+          </div>
+          <p class="footer-tagline">"Give Blood. Give Hope. Connect with available blood donors in your area."</p>
+          <div class="footer-badge">Direct Community Connection</div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-heading">Platform Links</h4>
+          <ul class="footer-nav">
+            <li><a href="#home" data-view="home">Home</a></li>
+            <li><a href="#search" data-view="search">Find Blood Donors</a></li>
+            <li><a href="#register" data-view="register">Register as Donor</a></li>
+            <li><a href="#admin" data-view="admin">Admin Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-heading">Important Notice</h4>
+          <p class="footer-disclaimer-text">
+            BloodBridge is a voluntary connection platform. It does not perform blood matching, medical screening, or testing. Always consult medical authorities and licensed blood banks.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-copy">
+          &copy; <span id="currentYear">2026</span> BloodBridge. Built with HTML, CSS &amp; Vanilla JavaScript.
+        </div>
+        <div class="footer-proto-tag">
+          Local Prototype Mode &bull; Device Storage Only
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MODALS & DIALOGS
+       ============================================================ -->
+
+  <!-- 1. REGISTRATION SUCCESS POPUP MODAL -->
+  <div class="modal-backdrop" id="modalRegisterSuccess" role="dialog" aria-modal="true" aria-labelledby="regSuccessTitle" style="display:none;">
+    <div class="modal-card modal-success">
+      <div class="modal-icon-circle">❤️</div>
+      <h3 class="modal-title" id="regSuccessTitle">Thank You for Registering as a Blood Donor ❤️</h3>
+      <p class="modal-message">Your donor information has been successfully registered on this device.</p>
+      
+      <div class="donor-id-highlight-box">
+        <span class="id-label">YOUR UNIQUE DONOR ID</span>
+        <span class="id-value" id="successDonorId">BB000001</span>
+      </div>
+
+      <div class="modal-notice-box">
+        <small>Your profile is now discoverable by seekers looking for your blood group in your area. Thank you for being a lifesaver!</small>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary btn-block btn-lg" id="btnSuccessBackHome">
+          BACK TO HOME
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NO RESULTS SEARCH POPUP MODAL -->
+  <div class="modal-backdrop" id="modalNoResults" role="dialog" aria-modal="true" aria-labelledby="noResultsTitle" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-icon-circle modal-icon-warn">🔍</div>
+      <h3 class="modal-title" id="noResultsTitle">NO DONORS FOUND</h3>
+      <p class="modal-message">We couldn't find an available donor matching your selected blood group and location.</p>
+      
+      <div class="no-results-suggestions">
+        <strong>Suggestions:</strong>
+        <ul>
+          <li>Try searching at the <strong>State level</strong> by clearing District/City.</li>
+          <li>Check universal donor groups like <strong>O-</strong> or compatible blood groups.</li>
+          <li>Encourage friends or family in your area to register on BloodBridge.</li>
+        </ul>
+      </div>
+
+      <div class="modal-actions modal-actions-split">
+        <button type="button" class="btn btn-secondary" id="btnTryAnotherSearch">
+          TRY ANOTHER SEARCH
+        </button>
+        <button type="button" class="btn btn-primary" id="btnSearchAgain">
+          SEARCH AGAIN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ADMIN: VIEW DONOR DETAILS MODAL -->
+  <div class="modal-backdrop" id="modalDonorDetails" role="dialog" aria-modal="true" aria-labelledby="donorDetailsTitle" style="display:none;">
+    <div class="modal-card modal-lg">
+      <div class="modal-header-row">
+        <h3 class="modal-title" id="donorDetailsTitle">Donor Full Record</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseDetailsModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="donorDetailsContent">
+        <!-- Injected via script.js -->
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="btnCloseDetailsModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ADMIN: EDIT DONOR MODAL -->
+  <div class="modal-backdrop" id="modalEditDonor" role="dialog" aria-modal="true" aria-labelledby="editDonorTitle" style="display:none;">
+    <div class="modal-card modal-lg">
+      <div class="modal-header-row">
+        <h3 class="modal-title" id="editDonorTitle">Edit Donor Profile</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseEditModal" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="adminEditDonorForm" novalidate>
+        <input type="hidden" id="editDonorId">
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="editFullName" class="form-label required-field">Full Name</label>
+            <input type="text" id="editFullName" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="editBloodGroup" class="form-label required-field">Blood Group</label>
+            <select id="editBloodGroup" class="form-select" required>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="editMobile" class="form-label required-field">Phone</label>
+            <input type="tel" id="editMobile" class="form-input" required maxlength="10">
+          </div>
+          <div class="form-group">
+            <label for="editEmail" class="form-label required-field">Email</label>
+            <input type="email" id="editEmail" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label for="editState" class="form-label required-field">State</label>
+            <select id="editState" class="form-select" required></select>
+          </div>
+          <div class="form-group">
+            <label for="editDistrict" class="form-label required-field">District</label>
+            <input type="text" id="editDistrict" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="editCity" class="form-label required-field">City</label>
+            <input type="text" id="editCity" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="editArea" class="form-label">Area / Locality</label>
+            <input type="text" id="editArea" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="editLastDonationDate" class="form-label">Last Blood Donation Date</label>
+            <input type="date" id="editLastDonationDate" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="editAvailability" class="form-label required-field">Availability</label>
+            <select id="editAvailability" class="form-select" required>
+              <option value="Available">Available</option>
+              <option value="Available this week">Available this week</option>
+              <option value="Contact me first">Contact me first</option>
+              <option value="Temporarily unavailable">Temporarily unavailable</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editAdminStatus" class="form-label required-field">Admin Status</label>
+            <select id="editAdminStatus" class="form-select" required>
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="BLOCKED">BLOCKED</option>
+              <option value="PENDING">PENDING</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editNotes" class="form-label">Internal Admin Notes</label>
+          <textarea id="editNotes" class="form-textarea" rows="2"></textarea>
+        </div>
+
+        <div class="modal-actions modal-actions-split">
+          <button type="button" class="btn btn-secondary" id="btnCancelEditModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveEditDonor">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. CONFIRMATION DIALOG MODAL (Reusable for Delete, Clear Data, etc.) -->
+  <div class="modal-backdrop" id="modalConfirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-icon-circle modal-icon-danger" id="confirmIcon">⚠️</div>
+      <h3 class="modal-title" id="confirmTitle">Confirm Action</h3>
+      <p class="modal-message" id="confirmMessage">Are you sure you want to proceed?</p>
+      
+      <div class="modal-actions modal-actions-split">
+        <button type="button" class="btn btn-secondary" id="btnConfirmCancel">CANCEL</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmProceed">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Project JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
